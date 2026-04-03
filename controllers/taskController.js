@@ -1,5 +1,5 @@
 const Task = require("../models/Task");
-
+const mongoose = require("mongoose");
 // CREATE
 exports.createTask = async (req, res) => {
   try {
@@ -19,8 +19,17 @@ exports.createTask = async (req, res) => {
 // GET ALL
 exports.getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find();
-    res.json(tasks);
+    const { completed } = req.query;
+
+    let filter = {};
+
+    if (completed !== undefined) {
+      filter.completed = completed === "true";
+    }
+
+    const tasks = await Task.find(filter);
+
+    res.status(200).json(tasks);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -29,6 +38,10 @@ exports.getTasks = async (req, res) => {
 // UPDATE
 exports.updateTask = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid task ID" });
+    }
+
     const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
       new: true
     });
@@ -37,7 +50,7 @@ exports.updateTask = async (req, res) => {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    res.json(task);
+    res.status(200).json(task);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -46,6 +59,10 @@ exports.updateTask = async (req, res) => {
 // COMPLETE
 exports.completeTask = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid task ID" });
+    }
+
     const task = await Task.findById(req.params.id);
 
     if (!task) {
@@ -53,13 +70,13 @@ exports.completeTask = async (req, res) => {
     }
 
     if (task.completed) {
-      return res.status(400).json({ message: "Already completed" });
+      return res.status(400).json({ message: "Task already completed" });
     }
 
     task.completed = true;
     await task.save();
 
-    res.json(task);
+    res.status(200).json(task);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -68,13 +85,17 @@ exports.completeTask = async (req, res) => {
 // DELETE
 exports.deleteTask = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: "Invalid task ID" });
+    }
+
     const task = await Task.findByIdAndDelete(req.params.id);
 
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    res.json({ message: "Task deleted" });
+    res.status(200).json({ message: "Task deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
