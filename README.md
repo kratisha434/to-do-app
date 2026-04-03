@@ -2,21 +2,30 @@
 
 A RESTful API for managing tasks built using Node.js, Express, and MongoDB. This project allows users to create, update, delete, and track tasks efficiently.
 
-## 🚀 Features
+##  Features
 * Create tasks
 * View all tasks
 * Update tasks
 * Mark tasks as completed
 * Delete tasks
 
-## 🛠 Tech Stack
+##  Tech Stack
 * Node.js
 * Express.js
 * MongoDB
 * Mongoose
 * Jest (for testing)
+* ## Test Output
 
-## ⚙️ Installation & Setup
+All tests passing 
+
+##  Folder Structure
+
+controllers/
+models/
+routes/
+
+## Installation & Setup
 ```bash
 git clone https://github.com/kratisha434/to-do-app.git
 cd to-do-app
@@ -33,7 +42,7 @@ PORT=5000
 npm run dev
 ```
 
-## 📌 API Endpoints
+##  API Endpoints
 
 | Method | Endpoint            | Description      |
 | ------ | ------------------- | ---------------- |
@@ -62,7 +71,10 @@ POST /tasks
 {
   "_id": "12345",
   "title": "Learn Node.js",
-  "completed": false
+  "completed": false<img width="545" height="392" alt="gettask" src="https://github.com/user-attachments/assets/eb4307bd-3729-40b4-b1c6-70cd030dbdfd" />
+<img width="562" height="416" alt="filter" src="https://github.com/user-attachments/assets/0e526769-e55a-417c-86a7-81bd352675a3" />
+<img width="564" height="427" alt="createtask" src="https://github.com/user-attachments/assets/5dd29d04-eb81-4e4a-a095-47b426db92ed" />
+
 }
 ```
 
